@@ -1,24 +1,22 @@
-﻿using System.Reflection;
-
-namespace BinaryTree;
+﻿namespace BinaryTree;
 public class Node
 {
     private int key;
+    private int value;
+    public Node Left { get; set; }
+    public Node Rigth { get; set; }
     public int Key
     {
         get { return key; }
         set { key = value; }
     }
     
-    private int value;
     public int Value
     {
         get { return value; }
         set { this.value = value; }
     }
-    
-    Node left;
-    Node right;
+    public Node() { }
     public Node(int key, int value)
     {
         this.key = key;
@@ -28,24 +26,24 @@ public class Node
     public void Insert(Node node, int key, int value) {
         if (node.key > key)
         {
-            if (node.left == null)
+            if (node.Left == null)
             {
-                node.left = new Node(key, value);
+                node.Left = new Node(key, value);
             }
             else 
             {
-                Insert(node.left, key, value);
+                Insert(node.Left, key, value);
             }
         }
         else if(node.key <= key) 
         {
-            if(node.right == null)
+            if(node.Rigth == null)
             {
-                node.right = new Node(key, value);
+                node.Rigth = new Node(key, value);
             }
             else 
             {
-                Insert(node.right, key, value);
+                Insert(node.Rigth, key, value);
             }
         }
     }
@@ -58,7 +56,7 @@ public class Node
         else if (node.key == targetkey) {
             return node;
         }
-        return node.key < targetkey ? Searach(node.right, targetkey) : Searach(node.left, targetkey);
+        return node.key < targetkey ? Searach(node.Rigth, targetkey) : Searach(node.Left, targetkey);
     }
 
     public Node GetMin(Node node) {
@@ -66,11 +64,11 @@ public class Node
         {
             return null;
         }
-        else if (node.left == null)
+        else if (node.Left == null)
         {
             return node;
         }
-        return GetMin(node.left);
+        return GetMin(node.Left);
     }
 
     public Node GetMax(Node node) {
@@ -78,10 +76,44 @@ public class Node
         {
             return null;
         }
-        else if (node.right == null)
+        else if (node.Rigth == null)
         {
             return node;
         }
-        return GetMax(node.right);
+        return GetMax(node.Rigth);
+    }
+
+    public Node Delete(Node node, int key) {
+        if(node == null) {
+            return null;
+        } 
+        if(key > node.key) {
+            node.Rigth = Delete(node.Rigth, key);
+        } 
+        else if(key < node.key) {
+            node.Left = Delete(node.Left, key);
+        } 
+        else {
+            if(node.Left == null || node.Rigth == null) {
+                node = node.Left == null ? node.Rigth : node.Left;
+            }
+            else {
+                Node maxInLeft = GetMax(node.Left);
+                node.key = maxInLeft.Key;
+                node.value = maxInLeft.Value;
+                Delete(node.Rigth, maxInLeft.Key);
+            }
+        }
+
+        return node;
+    }
+
+    public void PrintTree(Node node) {
+        if(node == null) {
+            return;
+        }
+        PrintTree(node.Left);
+        Console.Write(node.Key  + " ");
+        PrintTree(node.Rigth);
     }
 }
