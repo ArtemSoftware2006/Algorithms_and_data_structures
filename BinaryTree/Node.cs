@@ -16,6 +16,7 @@ public class Node
         get { return value; }
         set { this.value = value; }
     }
+    
     public Node() { }
     public Node(int key, int value)
     {
@@ -101,7 +102,7 @@ public class Node
                 Node maxInLeft = GetMax(node.Left);
                 node.key = maxInLeft.Key;
                 node.value = maxInLeft.Value;
-                Delete(node.Rigth, maxInLeft.Key);
+                Delete(node.Rigth, maxInLeft.Key);  
             }
         }
 

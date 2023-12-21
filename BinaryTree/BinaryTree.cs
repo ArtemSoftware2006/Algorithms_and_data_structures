@@ -1,3 +1,4 @@
+
 namespace BinaryTree
 {
     public class BinaryTree
@@ -7,6 +8,11 @@ namespace BinaryTree
         public BinaryTree() {
             Root = new Node();
             Count = 0;
+        }
+
+        public BinaryTree(int key, int value) {
+            Root = new Node(key, value);
+            Count = 1;
         }
 
         public void Insert(int key, int value) {
@@ -23,31 +29,30 @@ namespace BinaryTree
         }
 
         private void Insert(Node node, int Key, int value) {
-        if (node.Key > Key)
-        {
-            if (node.Left == null)
+            if (node.Key > Key)
             {
-                node.Left = new Node(Key, value);
+                if (node.Left == null)
+                {
+                    node.Left = new Node(Key, value);
+                }
+                else 
+                {
+                    Insert(node.Left, Key, value);
+                }
             }
-            else 
+            else if(node.Key <= Key) 
             {
-                Insert(node.Left, Key, value);
+                if(node.Rigth == null)
+                {
+                    node.Rigth = new Node(Key, value);
+                }
+                else 
+                {
+                    Insert(node.Rigth, Key, value);
+                }
             }
         }
-        else if(node.Key <= Key) 
-        {
-            if(node.Rigth == null)
-            {
-                node.Rigth = new Node(Key, value);
-            }
-            else 
-            {
-                Insert(node.Rigth, Key, value);
-            }
-        }
-    }
 
-        
         public bool Contains(int key) {
             return Search(Root, key) is not null;
         }
@@ -65,6 +70,79 @@ namespace BinaryTree
             }
             return key > node.Key ? Search(node.Rigth, key) : Search(node.Left, key);
         }
-    }
 
+        public Node GetMin() {
+            return GetMin(Root);
+        }
+        private Node GetMin(Node node) {
+            if (node == null)
+            {
+                return null;
+            }
+            else if(node.Left == null) {
+                return node;
+            }
+            return GetMin(node.Left);
+            
+        }
+
+        public Node GetMax() {
+            return GetMax(Root);
+        }
+        private Node GetMax(Node node) {
+            if (node == null)
+            {
+                return null;
+            }
+            else if(node.Rigth == null) {
+                return node;
+            }
+            return GetMax(node.Rigth);
+        }
+
+        public bool Remove(int key) {
+            if (Root is null)
+            {
+                return false;
+            }
+            bool result = Remove(Root, key);
+
+            if (result)
+            {
+                Count--; 
+            }
+
+            return result;
+        }
+
+        private bool Remove(Node node, int key)
+        {
+            if (node is null)
+            {
+                return false;
+            }
+            else if (key > node.Key)
+            {
+                Remove(node.Rigth, key);
+            }
+            else if(key < node.Key) 
+            {
+                Remove(node.Left, key);
+            }
+            else {
+                if(node.Left == null || node.Rigth == null)
+                {
+                    node = node.Left == null ? node.Rigth : node.Left;
+                }    
+                else 
+                {
+                    Node maxInLeft = GetMax(node.Left);
+                    node.Key = maxInLeft.Key;
+                    node.Value = maxInLeft.Value;
+                    Remove(node.Left, maxInLeft.Key);
+                }
+            }
+            return true;
+        }
+    }
 }
