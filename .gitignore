@@ -11,7 +11,6 @@
 *.sln.docstates
 
 .vscode
-console
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
