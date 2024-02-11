@@ -12,3 +12,6 @@
 
 ## Скользящее окно
 **Lections** - решение задача на скользящее окно из [статьи Хабр](https://habr.com/en/articles/347378/)
+
+## BackTracking 
+**Lections** - решение задач на Поиск с Возвратом из [RoadMap](https://neetcode.io/roadmap)
